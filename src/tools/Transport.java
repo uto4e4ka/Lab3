@@ -3,6 +3,7 @@ package tools;
 import Exeptions.NoSuchModelNameException;
 import interfaces.Vehicle;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 
 public class Transport {
@@ -24,5 +25,7 @@ public class Transport {
         }}catch (NoSuchModelNameException e){
             System.out.println(e.toString());
         }
+    }
+    public static void outputTransport(Vehicle vehicle, OutputStream out){
     }
 }
