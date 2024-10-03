@@ -4,10 +4,7 @@ import Exeptions.DuplicateModelNameException;
 import Exeptions.NoSuchModelNameException;
 
 public interface Vehicle {
-    String brand = null;
 
-
-    class Model{};
     String getBrand();
     void setBrand(String brand);
     String[] getNames();

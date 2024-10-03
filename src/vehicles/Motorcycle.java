@@ -10,6 +10,15 @@ import java.util.Date;
 public class Motorcycle implements Vehicle {
 
     private String brand;
+
+    public long getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(long lastModified) {
+        this.lastModified = lastModified;
+    }
+
     private class Model{
         Model(String model_name,double price){
             this.model_name = model_name;
@@ -33,13 +42,16 @@ public class Motorcycle implements Vehicle {
     }
     private int size =0;
     private Model head;//!!!!
-    private long lastModified;///!!!
+    private long lastModified;
+
+    {
+        lastModified=new Date().getTime();
+    }   ///!!!
     public Motorcycle(String brand){//!!!!
         this.brand =brand;
         head = new Model(null,Double.NaN);
         head.next = head;
         head.prev = head;
-        lastModified = new Date().getTime();
     }
     public Motorcycle(String brand,int size) {
         this.size = size;//!!!!
@@ -47,7 +59,6 @@ public class Motorcycle implements Vehicle {
         head = new Model(null,Double.NaN);
         head.next = head;
         head.prev = head;
-        lastModified = new Date().getTime();
         fillModels(size);
 
     }
@@ -59,17 +70,6 @@ public class Motorcycle implements Vehicle {
     @Override
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-    private Model[] getAll(){
-        Model m=head;
-        Model[] ms = new Model[length()];
-        int i=0;
-        while (m.next!=head){
-            ms[i]=m.next;
-            i++;
-            m = m.next;
-        }
-        return ms;
     }
     void fillModels(int size){
             for (int i = 0; i < size; i++) {
@@ -87,9 +87,11 @@ public class Motorcycle implements Vehicle {
     public String[] getNames() {
         String[] names = new String[length()];
         int i =0;
-        for(Model m:getAll()){
-            names[i]=m.model_name;
+        Model m = head;
+        while (m.next!=head){
+            names[i] = m.next.model_name;
             i++;
+            m=m.next;
         }
         return names;
     }
@@ -98,17 +100,21 @@ public class Motorcycle implements Vehicle {
     public double[] getPrices() {
         double[] prices = new double[length()];
         int i=0;
-        for (Model m:getAll()){
-            prices[i]=m.price;
+        Model m = head;
+        while (m.next!=head){
+            prices[i] = m.next.price;
             i++;
+            m=m.next;
         }
         return prices;
     }
 
     @Override
     public double getPrice(String name) throws NoSuchModelNameException {
-        for (Model m:getAll()){
-            if(m.model_name.equals(name)) return m.price;
+        Model m = head;
+        while (m.next!=head){
+            if(m.next.model_name.equals(name))return m.next.price;
+            m=m.next;
         }
         throw new NoSuchModelNameException(name);
     }
@@ -116,17 +122,20 @@ public class Motorcycle implements Vehicle {
     @Override
     public void setPrice(String name, double price) throws NoSuchModelNameException {
         boolean flag = false;
-        for (Model m:getAll()){
-            if(m.model_name.equals(name)) {
-                m.setPrice(price);
-                flag = true;//!!!
+        Model m = head;
+        while (m.next!=head){
+            if(m.next.model_name.equals(name)){
+                m.next.setPrice(price);
+                flag = true;
+                break;
             }
+            m=m.next;
         }
         lastModified = new Date().getTime();
         if(!flag) throw new NoSuchModelNameException(name);
     }
     private Model getItem(String name) throws NoSuchModelNameException{
-        Model m=head;
+        Model m=head;//!!!
         while (m.next!=head){
             if(m.next.model_name.equals(name))return m.next;
             m = m.next;
@@ -147,7 +156,11 @@ public class Motorcycle implements Vehicle {
         }
     }
 void isUniq(String name) throws DuplicateModelNameException{
-        for (Model model:getAll()) if(model!=null&&model.model_name.equals(name)) throw new DuplicateModelNameException(name);
+        Model m = head;
+    while (m.next!=head){
+        if(m.next.model_name.equals(name)) throw new DuplicateModelNameException(m.next.model_name);
+        m = m.next;
+    }
 }
     @Override
     public int length() {//!!!size
@@ -167,8 +180,19 @@ void isUniq(String name) throws DuplicateModelNameException{
 
     @Override
     public void setItemName(String name, String newName) throws DuplicateModelNameException, NoSuchModelNameException {
-        isUniq(newName);
-        getItem(name).model_name = newName;
+        Model m = head;
+        Model buff = null;
+        boolean flag = false;
+        while (m.next!=head){
+           if(m.next.model_name.equals(name)){
+               buff = m.next;
+               flag = true;
+           }
+           if(m.next.model_name.equals(newName))throw new DuplicateModelNameException(m.next.model_name);
+           m=m.next;
+        }
+        if(!flag) throw new NoSuchModelNameException(name);
+        buff.model_name = newName;//1
     }
 
 

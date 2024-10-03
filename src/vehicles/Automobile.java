@@ -59,20 +59,23 @@ public class Automobile implements Vehicle {
             if (model.model_name.equals(name)) {
                 model.setPrice(price);//!!!
                 flag = true;
+                break;
             }
         if(!flag)
             throw new NoSuchModelNameException(name);
     }
     public void setItemName(String name,String newName) throws DuplicateModelNameException,NoSuchModelNameException {
-        checkUniq(newName,models);
-        boolean flag = false;//!!!
-        for (Model model:models){
-            if(model.model_name.equals(name)){
-                model.model_name=newName;
+        boolean flag = false;
+        int id = -1;//!!!
+        for (int i=0;i<models.length;i++){
+            if(models[i].model_name.equals(name)){
+                id = i;
                 flag = true;
             }
+            if(models[i].model_name.equals(newName))throw new DuplicateModelNameException(models[i].model_name);
         }
         if(!flag) throw new NoSuchModelNameException(name);
+        models[id].model_name=newName;
     }
     public void addItem(String name,double price) throws DuplicateModelNameException {
        checkUniq(name,models);

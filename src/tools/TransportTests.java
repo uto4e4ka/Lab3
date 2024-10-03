@@ -5,7 +5,7 @@ import Exeptions.NoSuchModelNameException;
 import interfaces.Vehicle;
 
 public class TransportTests {
-    Vehicle vehicle;
+    private Vehicle vehicle;
    public TransportTests(Vehicle vehicle) {
       this.vehicle = vehicle;
    }
@@ -27,7 +27,7 @@ public class TransportTests {
        vehicle.addItem("M5",90129);
        vehicle.addItem("M10",9019);
        vehicle.delItem("M10");
-       vehicle.setItemName("M5","M33");
+       vehicle.setItemName("M0","M53");
        vehicle.setPrice("M2",-100);
        Transport.printModels(vehicle);
    }
