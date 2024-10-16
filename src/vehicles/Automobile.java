@@ -5,6 +5,7 @@ import Exeptions.ModelPriceOutOfBoundsException;
 import Exeptions.NoSuchModelNameException;
 import interfaces.Vehicle;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 public class Automobile implements Vehicle {
@@ -107,7 +108,7 @@ public class Automobile implements Vehicle {
     }
 
 
-    private class Model{
+    private class Model implements Serializable {
         private String model_name;
         private double price;
         public Model(String model_name, double price){

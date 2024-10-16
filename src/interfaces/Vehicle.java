@@ -3,8 +3,9 @@ package interfaces;
 import Exeptions.DuplicateModelNameException;
 import Exeptions.NoSuchModelNameException;
 
-public interface Vehicle {
+import java.io.Serializable;
 
+public interface Vehicle extends Serializable { 
     String getBrand();
     void setBrand(String brand);
     String[] getNames();

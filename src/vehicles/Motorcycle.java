@@ -5,6 +5,7 @@ import Exeptions.ModelPriceOutOfBoundsException;
 import Exeptions.NoSuchModelNameException;
 import interfaces.Vehicle;
 
+import java.io.Serializable;
 import java.util.Date;
 
 public class Motorcycle implements Vehicle {
@@ -19,7 +20,7 @@ public class Motorcycle implements Vehicle {
         this.lastModified = lastModified;
     }
 
-    private class Model{
+    private class Model implements Serializable {
         Model(String model_name,double price){
             this.model_name = model_name;
             if(price<0) throw new ModelPriceOutOfBoundsException();
@@ -42,7 +43,7 @@ public class Motorcycle implements Vehicle {
     }
     private int size =0;
     private Model head;//!!!!
-    private long lastModified;
+    private transient long lastModified;
 
     {
         lastModified=new Date().getTime();
