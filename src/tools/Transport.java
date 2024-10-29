@@ -97,7 +97,7 @@ public class Transport {
             printWriter.println(models[i]);
             printWriter.println(prices[i]);
         }
-        printWriter.close();
+        printWriter.flush();
 
     }
     public static Vehicle readModel(Reader in) throws UnknownClassExeption, IOException, DuplicateModelNameException {
